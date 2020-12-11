@@ -1,7 +1,11 @@
 package pmonitoreo;
 
-import netscape.javascript.JSObject;
+import pmonitoreo.cohabitante.Cohabitante;
 
 public class Main {
+
+  public static void main(String[] args) {
+    Cohabitante co = new Cohabitante();
+  }
 
 }
