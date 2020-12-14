@@ -2,20 +2,27 @@ package pmonitoreo.cohabitante;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Stack;
 
-public class Cohabitante extends JFrame {
-
-  private JPanel CoState;
-  private JPanel CoHistory;
-  private JPanel CoActions;
+public class Cohabitante extends JFrame implements UICohabitante {
 
   private int ID;
   private String coName;
 
+  private JComponent CohabitantePanel;
+  private JComponent ActionsStatusCo;
+  private JComponent ReportStatusPanel;
+  private JComponent TestRequestPanel;
+
+
+  private Stack<JComponent> panelManger;
 
   public Cohabitante(){
+
+    this.panelManger = new Stack<>();
     getCohabitanteInfo();
     initCohabitante();
+
   }
 
   private void getCohabitanteInfo(){
@@ -28,49 +35,65 @@ public class Cohabitante extends JFrame {
     this.setSize(375, 667);
     this.setTitle("Interfaz de Cohabitante");
     this.setVisible(true);
+    this.setLocationRelativeTo(null);
 
-    initCoState();
-    initCoHistory();
-    initCoActions();
+    this.CohabitantePanel = new CohabitanteMainPanel(this);
+    this.ReportStatusPanel = new ReportStatusPanel(this);
+    this.TestRequestPanel = new TestRequestPanel(this);
+
+    this.add(CohabitantePanel);
+//    onPush(CohabitantePanel);
+      panelManger.push(CohabitantePanel);
+//    initActionStatus();
 
     this.pack();
   }
 
-  private void initCoState(){
-    CoState = new JPanel();
-    CoState.setLayout( new FlowLayout());
-    CoState.setBackground( Color.red);
-    JLabel userName = new JLabel(this.coName);
-    JButton userState = new JButton("_user-state_");
-    CoState.add( userName );
-    CoState.add( userState );
-    this.add(CoState, BorderLayout.NORTH);
+  private void initActionStatus() {
+    this.ActionsStatusCo = new JPanel();
+    ActionsStatusCo.setLayout( new FlowLayout());
+    JButton mainButton = new JButton("Ir a Main");
+    mainButton.addActionListener(e -> {
+      if(!this.CohabitantePanel.isVisible()){
+        this.ReportStatusPanel.setVisible(false);
+        this.CohabitantePanel.setVisible(true);
+      }
+    });
+    ActionsStatusCo.add(mainButton);
+
+    JButton reportButton = new JButton("Ir a Reportar");
+    reportButton.addActionListener(e -> {
+//      if( !this.ReportStatusPanel.isVisible() ){
+        CohabitantePanel.setVisible(false);
+        CohabitantePanel.setEnabled(false);
+        this.add(ReportStatusPanel);
+        ReportStatusPanel.setVisible(true);
+        ReportStatusPanel.setEnabled(true);
+
+//      }
+    });
+    ActionsStatusCo.add(reportButton);
+
+    this.add(ActionsStatusCo, BorderLayout.SOUTH);
   }
 
-  private void initCoHistory(){
-    CoHistory = new JPanel();
-    CoHistory.setPreferredSize( new Dimension(375, 500) );
-    //CoHistory.setLayout( new ScrollPaneLayout() );
-    JLabel historyTitle = new JLabel("History");
-    JLabel Contend = new JLabel("_table heald user history last 5 days_");
-
-    CoHistory.add(historyTitle);
-    CoHistory.add(Contend);
-
-    this.add( CoHistory, BorderLayout.CENTER);
+  @Override
+  public void onBack() {
+    if( !panelManger.empty()){
+      panelManger.peek().setEnabled(false);
+      panelManger.pop().setVisible(false);
+      panelManger.peek().setVisible(true);
+      this.getContentPane().add(panelManger.peek());
+    }
   }
 
-  private void initCoActions(){
-    CoActions = new JPanel();
-    CoActions.setLayout( new FlowLayout() );
-
-    JButton requestTest = new JButton("Solicitar Prueba");
-    JButton report = new JButton("Reportar");
-
-    CoActions.add(requestTest);
-    CoActions.add(report);
-
-    this.add( CoActions, BorderLayout.SOUTH);
+  @Override
+  public void onPush(JComponent component) {
+    if( !panelManger.empty() ){
+      panelManger.peek().setVisible(false);
+//      panelManger.peek().setEnabled(false);
+    }
+    this.add(component);
+    panelManger.push(component);
   }
-
 }
