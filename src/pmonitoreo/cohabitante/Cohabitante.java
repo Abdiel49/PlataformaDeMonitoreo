@@ -96,4 +96,15 @@ public class Cohabitante extends JFrame implements UICohabitante {
     this.add(component);
     panelManger.push(component);
   }
+
+
+  @Override
+  public void reportarEstado( StatusType status ) {
+
+  }
+
+  @Override
+  public void solicitarPrueba() {
+
+  }
 }

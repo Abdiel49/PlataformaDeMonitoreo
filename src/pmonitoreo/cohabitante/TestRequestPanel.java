@@ -11,6 +11,7 @@ public class TestRequestPanel extends JPanel {
   private JComponent ActionsTestRequestPanel;
 
   private PanelManager panelManager;
+//  private CSVReader = new CSVReader();
 
   public TestRequestPanel( PanelManager pManager ){
 

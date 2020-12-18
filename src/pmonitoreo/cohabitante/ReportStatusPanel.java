@@ -51,10 +51,12 @@ public class ReportStatusPanel extends JPanel {
 
     JLabel tempLabel = new JLabel("Temperatura");
     JTextField tempInput = new JTextField(12);
-
+    float temp = randomTem();
+    tempInput.setText(temp + "" );
     TempBox.add(tempLabel);
     TempBox.add(tempInput);
-
+//    String date = new
+//    JLabel dateLabel = new JLabel();
     ContendStateReport.add(TempBox);
     this.add(ContendStateReport, BorderLayout.CENTER);
   }
@@ -66,6 +68,10 @@ public class ReportStatusPanel extends JPanel {
     ActionsStateReport.add(reportButton);
 
     this.add(ActionsStateReport, BorderLayout.SOUTH);
+  }
+
+  private float randomTem(){
+    return ( float )((Math.random()*39) + 34);
   }
 
 }
