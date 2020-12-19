@@ -1,7 +1,7 @@
 package pmonitoreo.cohabitante;
 
 
-public interface UICohabitante extends PanelManager{
+public interface UICohabitante {
   void reportarEstado(StatusType status);
   void solicitarPrueba();
 }

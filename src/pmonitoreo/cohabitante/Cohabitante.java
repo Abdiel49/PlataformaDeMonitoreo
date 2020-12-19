@@ -8,10 +8,14 @@ public class Cohabitante extends JFrame implements UICohabitante {
 
   private int ID;
   private String coName;
+  private String status;
+  private String[] Column;
+  private String[][] Data;
 
   private JComponent CohabitantePanel;
-  private JComponent ActionsStatusCo;
-  private JComponent ReportStatusPanel;
+  private JComponent NavCohabitante;
+
+  private JComponent StatusPanel;
   private JComponent TestRequestPanel;
 
 
@@ -20,14 +24,22 @@ public class Cohabitante extends JFrame implements UICohabitante {
   public Cohabitante(){
 
     this.panelManger = new Stack<>();
-    getCohabitanteInfo();
+    loadCohabitanteData();
     initCohabitante();
 
   }
 
-  private void getCohabitanteInfo(){
-    this.ID = 12;
+  private void loadCohabitanteData(){
+    this.ID = 1;
     this.coName = "Ibai";
+    this.status = "Normal";
+    this.Column = new String[]{"Fecha", "Temperatura"};
+    this.Data = new String[][]{
+        {"12-04-2020", "36.5"},
+        {"13-04-2020", "37.2"},
+        {"14-04-2020", "36.3"},
+        {"15-04-2020", "38.6"}
+    };
   }
 
   private void initCohabitante() {
@@ -37,64 +49,17 @@ public class Cohabitante extends JFrame implements UICohabitante {
     this.setVisible(true);
     this.setLocationRelativeTo(null);
 
-    this.CohabitantePanel = new CohabitanteMainPanel(this);
-    this.ReportStatusPanel = new ReportStatusPanel(this);
-    this.TestRequestPanel = new TestRequestPanel(this);
+    this.CohabitantePanel = new CohabitanteMainPanel();
+    this.StatusPanel = new CohabitanteStatus(Column, Data);
+    this.NavCohabitante = new NavCohabitante(this.coName, this.status);
+    this.TestRequestPanel = new TestRequestPanel();
 
+
+    this.CohabitantePanel.add(NavCohabitante, BorderLayout.NORTH);
+    this.CohabitantePanel.add(StatusPanel, BorderLayout.CENTER);
     this.add(CohabitantePanel);
-//    onPush(CohabitantePanel);
-      panelManger.push(CohabitantePanel);
-//    initActionStatus();
-
+//      panelManger.push(CohabitantePanel);
     this.pack();
-  }
-
-  private void initActionStatus() {
-    this.ActionsStatusCo = new JPanel();
-    ActionsStatusCo.setLayout( new FlowLayout());
-    JButton mainButton = new JButton("Ir a Main");
-    mainButton.addActionListener(e -> {
-      if(!this.CohabitantePanel.isVisible()){
-        this.ReportStatusPanel.setVisible(false);
-        this.CohabitantePanel.setVisible(true);
-      }
-    });
-    ActionsStatusCo.add(mainButton);
-
-    JButton reportButton = new JButton("Ir a Reportar");
-    reportButton.addActionListener(e -> {
-//      if( !this.ReportStatusPanel.isVisible() ){
-        CohabitantePanel.setVisible(false);
-        CohabitantePanel.setEnabled(false);
-        this.add(ReportStatusPanel);
-        ReportStatusPanel.setVisible(true);
-        ReportStatusPanel.setEnabled(true);
-
-//      }
-    });
-    ActionsStatusCo.add(reportButton);
-
-    this.add(ActionsStatusCo, BorderLayout.SOUTH);
-  }
-
-  @Override
-  public void onBack() {
-    if( !panelManger.empty()){
-      panelManger.peek().setEnabled(false);
-      panelManger.pop().setVisible(false);
-      panelManger.peek().setVisible(true);
-      this.getContentPane().add(panelManger.peek());
-    }
-  }
-
-  @Override
-  public void onPush(JComponent component) {
-    if( !panelManger.empty() ){
-      panelManger.peek().setVisible(false);
-//      panelManger.peek().setEnabled(false);
-    }
-    this.add(component);
-    panelManger.push(component);
   }
 
 

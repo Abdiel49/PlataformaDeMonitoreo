@@ -9,13 +9,11 @@ public class CohabitanteMainPanel extends JPanel {
   private JComponent CoHistory;
   private JComponent CoActions;
 
-  private PanelManager panelManager;
-
   private int ID;
   private String coName;
 
-  public CohabitanteMainPanel ( PanelManager pManager) {
-    this.panelManager = pManager;
+  public CohabitanteMainPanel () {
+
     this.setVisible(true);
     this.setLayout( new BorderLayout());
 
@@ -32,7 +30,7 @@ public class CohabitanteMainPanel extends JPanel {
     JButton userState = new JButton("_user-state_");
     CoState.add( userName );
     CoState.add( userState );
-    this.add(CoState, BorderLayout.NORTH);
+//    this.add(CoState, BorderLayout.NORTH);
   }
 
   private void initCoHistory(){
@@ -50,22 +48,13 @@ public class CohabitanteMainPanel extends JPanel {
 
   private void initCoActions(){
     CoActions = new JPanel();
-    CoActions.setLayout( new FlowLayout() );
 
     JButton requestTest = new JButton("Solicitar Prueba");
     JButton report = new JButton("Reportar");
     CoActions.add(requestTest);
     CoActions.add(report);
 
-    requestTest.addActionListener( e -> {
-      panelManager.onPush(new TestRequestPanel( panelManager ));
-    });
-
-    report.addActionListener( e -> {
-      panelManager.onPush(new ReportStatusPanel( panelManager ));
-    });
-
-    this.add( CoActions, BorderLayout.SOUTH);
+//    this.add( CoActions, BorderLayout.SOUTH);
   }
 
 }

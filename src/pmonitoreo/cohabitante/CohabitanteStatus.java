@@ -1,17 +1,23 @@
 package pmonitoreo.cohabitante;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class CohabitanteStatus extends JPanel {
 
-  private JComponent NavStatusCo;
-  private JComponent ContendStatusCo;
-  private JComponent ActionsStatusCo;
-  private JComponent Cohabitante;
+  private final String[] Columns;
+  private final String[][] Data;
 
-  public CohabitanteStatus (JComponent cohabitante) {
-    this.Cohabitante = cohabitante;
+//  private JTable statusContend;
+  private final DefaultTableModel tableModel;
+
+  public CohabitanteStatus (String[] column, String[][] data) {
+    this.Columns = column;
+    this.Data = data;
+    tableModel = new DefaultTableModel();
     initAllComponents();
   }
 
@@ -19,40 +25,64 @@ public class CohabitanteStatus extends JPanel {
     this.setLayout( new BorderLayout() );
     this.setPreferredSize( new Dimension(375, 500) );
 
-    initNavStatus();
     initContendStatus();
     initActionStatus();
 
     this.setVisible(true);
   }
 
-  private void initNavStatus() {
-    NavStatusCo = new JPanel();
-    NavStatusCo.setLayout( new FlowLayout() );
-    NavStatusCo.setBackground( Color.green );
-    JButton backButton = new JButton("Atras");
-    JLabel title = new JLabel("MI ESTADO");
-    backButton.addActionListener(e -> {
-      this.setVisible(false);
-    });
-    NavStatusCo.add(backButton);
-    NavStatusCo.add(title);
-
-    this.add(NavStatusCo, BorderLayout.NORTH);
-  }
-
   private void initContendStatus() {
-
+//    this.ContendStatusCo = new JPanel();
+    JLabel title = new JLabel("Mis ultimas temperaturas:");
+    JTable statusTable = new JTable(tableModel);
+    statusTable.setEnabled(false);
+    JScrollPane scrollPane = new JScrollPane(statusTable);
+    loadColumns();
+    loadData();
+    this.add(title, BorderLayout.NORTH);
+    this.add(scrollPane, BorderLayout.CENTER);
   }
+  private void loadColumns(){
+    for(String nameColumn : Columns) {
+      tableModel.addColumn(nameColumn);
+    }
+  }
+
+  private void loadData(){
+    for( String[] row : Data){
+      tableModel.insertRow(tableModel.getRowCount(), row);
+    }
+  }
+  private void addData(String[] newData){
+    this.tableModel.insertRow(0, newData);
+  }
+
 
   private void initActionStatus() {
-    this.ActionsStatusCo = new JPanel();
-    ActionsStatusCo.setLayout( new FlowLayout());
-    JButton reportButton = new JButton("Reportar");
+    JComponent ActionsStatusCo = new JPanel();
+    JButton reportButton = new JButton("Reportar mi estado actual");
+    reportButton.addActionListener( e -> addReport());
     ActionsStatusCo.add(reportButton);
-
     this.add(ActionsStatusCo, BorderLayout.SOUTH);
   }
 
+  private void addReport(){
+    addData( new String[]{
+        getLocalDateTimeNow(),
+        getTemperature()
+    });
+  }
+
+  private String getTemperature(){
+    double temp = ((Math.random() * 7 ) + 34);
+    return String.format("%.1f", temp);
+  }
+
+  private String getLocalDateTimeNow(){
+    String dateFormat = "dd-MM-yyy HH:mm";
+    DateTimeFormatter formatter =  DateTimeFormatter.ofPattern(dateFormat);
+    LocalDateTime time = LocalDateTime.now();
+    return formatter.format(time);
+  }
 
 }
