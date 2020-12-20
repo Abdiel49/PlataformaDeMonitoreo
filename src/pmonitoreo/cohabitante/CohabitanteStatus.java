@@ -78,10 +78,10 @@ public class CohabitanteStatus extends JPanel {
   }
 
   private String getLocalDateTimeNow(){
-    String dateFormat = "dd-MM-yyy HH:mm";
+    String dateFormat = "dd-MM-yyyy HH:mm";
     DateTimeFormatter formatter =  DateTimeFormatter.ofPattern(dateFormat);
-    LocalDateTime time = LocalDateTime.now();
-    return formatter.format(time);
+    LocalDateTime time = LocalDateTime.now();    return formatter.format(time);
+
   }
 
 }
