@@ -32,7 +32,6 @@ public class CohabitanteStatus extends JPanel {
   }
 
   private void initContendStatus() {
-//    this.ContendStatusCo = new JPanel();
     JLabel title = new JLabel("Mis ultimas temperaturas:");
     JTable statusTable = new JTable(tableModel);
     statusTable.setEnabled(false);
@@ -74,7 +73,7 @@ public class CohabitanteStatus extends JPanel {
   }
 
   private String getTemperature(){
-    double temp = ((Math.random() * 7 ) + 34);
+    double temp = ((Math.random() * 6 ) + 34);
     return String.format("%.1f", temp);
   }
 

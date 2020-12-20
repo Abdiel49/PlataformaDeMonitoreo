@@ -11,7 +11,6 @@ public class NavCohabitante extends JPanel {
   public NavCohabitante(String user, String status){
     this.userName = user;
     this.status = status;
-//    this.setPreferredSize( new Dimension( 375, 20));
     initComponentes();
   }
 
@@ -27,7 +26,6 @@ public class NavCohabitante extends JPanel {
     CoStatusNav.add(Status);
 
     this.add(CoStatusNav, BorderLayout.NORTH);
-//    this.setVisible(true);
   }
 
   public void onStatusChange(String status){

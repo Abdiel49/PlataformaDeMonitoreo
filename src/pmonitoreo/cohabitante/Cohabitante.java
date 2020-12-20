@@ -35,10 +35,10 @@ public class Cohabitante extends JFrame implements UICohabitante {
     this.status = "Normal";
     this.Column = new String[]{"Fecha", "Temperatura"};
     this.Data = new String[][]{
-        {"12-04-2020", "36.5"},
-        {"13-04-2020", "37.2"},
-        {"14-04-2020", "36.3"},
-        {"15-04-2020", "38.6"}
+        {"12-04-2020 08:26", "36.5"},
+        {"13-04-2020 08:15", "37.2"},
+        {"14-04-2020 08:35", "36.3"},
+        {"15-04-2020 08:12", "38.6"}
     };
   }
 
@@ -54,11 +54,11 @@ public class Cohabitante extends JFrame implements UICohabitante {
     this.NavCohabitante = new NavCohabitante(this.coName, this.status);
     this.TestRequestPanel = new TestRequestPanel();
 
-
     this.CohabitantePanel.add(NavCohabitante, BorderLayout.NORTH);
     this.CohabitantePanel.add(StatusPanel, BorderLayout.CENTER);
+//    this.CohabitantePanel.add(TestRequestPanel/*, BorderLayout.SOUTH*/);
+
     this.add(CohabitantePanel);
-//      panelManger.push(CohabitantePanel);
     this.pack();
   }
 
