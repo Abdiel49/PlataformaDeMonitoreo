@@ -1,5 +1,5 @@
-ID,USER,NAME
-1,ibai,Ibai Llanos
-2,rodolfo,Rodolfo
-3,beniju,Beniju
-4,kitty,Kitty
+ID,USER,NAME,PASS,
+1,ibai,Ibai Llanos,301
+2,rodolfo,Rodolfo,202
+3,beniju,Beniju,303
+4,kitty,Kitty,404
