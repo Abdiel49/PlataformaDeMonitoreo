@@ -1,10 +1,11 @@
 package pmonitoreo.cohabitante;
 
+import org.json.simple.JSONObject;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.Stack;
 
-public class Cohabitante extends JFrame implements UICohabitante {
+public class Cohabitante implements CohabitanteUI {
 
   private int ID;
   private String coName;
@@ -12,27 +13,26 @@ public class Cohabitante extends JFrame implements UICohabitante {
   private String[] Column;
   private String[][] Data;
 
-  private JComponent CohabitantePanel;
+  private JFrame CohabitanteFrame;
   private JComponent NavCohabitante;
 
   private JComponent StatusPanel;
   private JComponent TestRequestPanel;
 
-
-  private Stack<JComponent> panelManger;
-
   public Cohabitante(){
-
-    this.panelManger = new Stack<>();
     loadCohabitanteData();
     initCohabitante();
 
   }
 
   private void loadCohabitanteData(){
-    this.ID = 1;
-    this.coName = "Ibai";
-    this.status = "Normal";
+    String path = "src/pmonitoreo/cohabitante/mobil.conf";
+    JSONObject object = JSONController.getJSONObjectFromFile(path);
+    JSONObject data = (JSONObject) object.get("userData");
+//    System.out.println(data.toJSONString());
+    this.ID = Integer.parseInt( (String) data.get("id") );
+    this.coName = (String) data.get("name");
+    this.status = (String) data.get("status");
     this.Column = new String[]{"Fecha", "Temperatura"};
     this.Data = new String[][]{
         {"12-04-2020 08:26", "36.5"},
@@ -42,26 +42,29 @@ public class Cohabitante extends JFrame implements UICohabitante {
     };
   }
 
-  private void initCohabitante() {
-    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    this.setSize(375, 667);
-    this.setTitle("Interfaz de Cohabitante");
-    this.setVisible(true);
-    this.setLocationRelativeTo(null);
+  public void initCohabitante() {
+    this.CohabitanteFrame = new JFrame("Interfaz de Cohabitante");
+    this.CohabitanteFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.CohabitanteFrame.setSize(375, 667);
+    this.CohabitanteFrame.setTitle("Interfaz de CohabitanteServer");
+    this.CohabitanteFrame.setVisible(false);
+    this.CohabitanteFrame.setLocationRelativeTo(null);
 
-    this.CohabitantePanel = new CohabitanteMainPanel();
     this.StatusPanel = new CohabitanteStatus(Column, Data);
     this.NavCohabitante = new NavCohabitante(this.coName, this.status);
     this.TestRequestPanel = new TestRequestPanel();
 
-    this.CohabitantePanel.add(NavCohabitante, BorderLayout.NORTH);
-    this.CohabitantePanel.add(StatusPanel, BorderLayout.CENTER);
+    this.CohabitanteFrame.add(NavCohabitante, BorderLayout.NORTH);
+    this.CohabitanteFrame.add(StatusPanel, BorderLayout.CENTER);
 //    this.CohabitantePanel.add(TestRequestPanel/*, BorderLayout.SOUTH*/);
 
-    this.add(CohabitantePanel);
-    this.pack();
+    this.CohabitanteFrame.pack();
   }
 
+  @Override
+  public void show(){
+    this.CohabitanteFrame.setVisible(true);
+  }
 
   @Override
   public void reportarEstado( StatusType status ) {

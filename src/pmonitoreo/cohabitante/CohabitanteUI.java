@@ -1,7 +1,8 @@
 package pmonitoreo.cohabitante;
 
 
-public interface UICohabitante {
+public interface CohabitanteUI {
+  void show();
   void reportarEstado(StatusType status);
   void solicitarPrueba();
 }

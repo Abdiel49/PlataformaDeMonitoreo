@@ -10,9 +10,9 @@ public interface Cohabitantes {
 
   void registrarCondicionSanitaria(int idUsuario, CondicionSanitaria condicionSanitaria);
 
-  List<Cohabitante> obtenerListaDeCohabitantes();
+  List<CohabitanteServer> obtenerListaDeCohabitantes();
 
-  Cohabitante obtenerCohabitante(int idUsuario);
+  CohabitanteServer obtenerCohabitante(int idUsuario);
 
   void cambiarEstadoCohabitante(int idUsuario, EstadoCohabitante estadoCohabitante);
 

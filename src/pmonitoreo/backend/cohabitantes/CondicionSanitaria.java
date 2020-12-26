@@ -1,20 +1,28 @@
 package pmonitoreo.backend.cohabitantes;
 
+import java.time.LocalDateTime;
+
+
 public class CondicionSanitaria {
 
-  private double Temperatura;
-  private String Date;
+  private final LocalDateTime fecha;
+  private final String  nombreCondicion, valorCondicion;
 
-  public CondicionSanitaria (String date, double temp) {
-    this.Date = date;
-    this.Temperatura = temp;
+  public CondicionSanitaria (LocalDateTime date, String nombreCondicion, String valorCondicion) {
+    this.fecha = date;
+    this.nombreCondicion = nombreCondicion;
+    this.valorCondicion = valorCondicion;
   }
 
-  public String[] getCondicionSanitaria(){
-    return new String[]{
-        this.Date,
-        this.Temperatura+""
-    };
+  public LocalDateTime getFecha() {
+    return fecha;
   }
 
+  public String getNombreCondicion() {
+    return nombreCondicion;
+  }
+
+  public String getValorCondicion() {
+    return valorCondicion;
+  }
 }
