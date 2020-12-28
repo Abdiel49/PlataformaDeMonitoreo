@@ -1,5 +1,8 @@
 package pmonitoreo.cohabitante;
 
+import pmonitoreo.backend.cohabitantes.Cohabitantes;
+import pmonitoreo.backend.cohabitantes.CondicionSanitaria;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -8,13 +11,20 @@ import java.time.format.DateTimeFormatter;
 
 public class CohabitanteStatus extends JPanel {
 
+  private final int ID;
   private final String[] Columns;
   private final String[][] Data;
-
+  Cohabitantes cohabitanteServer;
 //  private JTable statusContend;
   private final DefaultTableModel tableModel;
 
-  public CohabitanteStatus (String[] column, String[][] data) {
+  public CohabitanteStatus (
+      int id,
+      Cohabitantes server,
+      String[] column,
+      String[][] data) {
+    this.ID = id;
+    this.cohabitanteServer = server;
     this.Columns = column;
     this.Data = data;
     tableModel = new DefaultTableModel();
@@ -56,7 +66,6 @@ public class CohabitanteStatus extends JPanel {
     this.tableModel.insertRow(0, newData);
   }
 
-
   private void initActionStatus() {
     JComponent ActionsStatusCo = new JPanel();
     JButton reportButton = new JButton("Reportar mi estado actual");
@@ -66,9 +75,17 @@ public class CohabitanteStatus extends JPanel {
   }
 
   private void addReport(){
+    LocalDateTime time = getLocalDateTimeNow();
+    String temp = getTemperature();
+
+    cohabitanteServer.registrarCondicionSanitaria(ID, new CondicionSanitaria(time, "Temperatura", temp));
+
+    String dateFormat = "dd-MM-yyyy HH:mm";
+    DateTimeFormatter formatter =  DateTimeFormatter.ofPattern(dateFormat);
+
     addData( new String[]{
-        getLocalDateTimeNow(),
-        getTemperature()
+        formatter.format(time),
+      temp
     });
   }
 
@@ -77,11 +94,9 @@ public class CohabitanteStatus extends JPanel {
     return String.format("%.1f", temp);
   }
 
-  private String getLocalDateTimeNow(){
-    String dateFormat = "dd-MM-yyyy HH:mm";
-    DateTimeFormatter formatter =  DateTimeFormatter.ofPattern(dateFormat);
-    LocalDateTime time = LocalDateTime.now();
-    return formatter.format(time);
+  private LocalDateTime getLocalDateTimeNow(){
+
+    return LocalDateTime.now().withSecond(0).withNano(0);
   }
 
 }

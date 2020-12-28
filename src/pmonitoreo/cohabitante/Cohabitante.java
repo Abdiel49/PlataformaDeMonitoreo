@@ -1,12 +1,14 @@
 package pmonitoreo.cohabitante;
 
 import org.json.simple.JSONObject;
+import pmonitoreo.backend.cohabitantes.Cohabitantes;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Cohabitante implements CohabitanteUI {
 
+  Cohabitantes cohabitanteServer;
   private int ID;
   private String coName;
   private String status;
@@ -19,7 +21,8 @@ public class Cohabitante implements CohabitanteUI {
   private JComponent StatusPanel;
   private JComponent TestRequestPanel;
 
-  public Cohabitante(){
+  public Cohabitante(Cohabitantes cohabitanteServer){
+    this.cohabitanteServer = cohabitanteServer;
     loadCohabitanteData();
     initCohabitante();
 
@@ -28,11 +31,11 @@ public class Cohabitante implements CohabitanteUI {
   private void loadCohabitanteData(){
     String path = "src/pmonitoreo/cohabitante/mobil.conf";
     JSONObject object = JSONController.getJSONObjectFromFile(path);
-    JSONObject data = (JSONObject) object.get("userData");
+    JSONObject userData = (JSONObject) object.get("userData");
 //    System.out.println(data.toJSONString());
-    this.ID = Integer.parseInt( (String) data.get("id") );
-    this.coName = (String) data.get("name");
-    this.status = (String) data.get("status");
+    this.ID = Integer.parseInt( (String) userData.get("id") );
+    this.coName = (String) userData.get("name");
+    this.status = (String) userData.get("status");
     this.Column = new String[]{"Fecha", "Temperatura"};
     this.Data = new String[][]{
         {"12-04-2020 08:26", "36.5"},
@@ -50,7 +53,7 @@ public class Cohabitante implements CohabitanteUI {
     this.CohabitanteFrame.setVisible(false);
     this.CohabitanteFrame.setLocationRelativeTo(null);
 
-    this.StatusPanel = new CohabitanteStatus(Column, Data);
+    this.StatusPanel = new CohabitanteStatus(ID, cohabitanteServer, Column, Data);
     this.NavCohabitante = new NavCohabitante(this.coName, this.status);
     this.TestRequestPanel = new TestRequestPanel();
 

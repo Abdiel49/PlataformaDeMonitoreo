@@ -1,5 +1,7 @@
 package pmonitoreo.backend.cohabitantes;
 
+
+
 import java.util.List;
 
 public interface Cohabitantes {
@@ -10,9 +12,9 @@ public interface Cohabitantes {
 
   void registrarCondicionSanitaria(int idUsuario, CondicionSanitaria condicionSanitaria);
 
-  List<CohabitanteServer> obtenerListaDeCohabitantes();
+  List<Cohabitante> obtenerListaDeCohabitantes();
 
-  CohabitanteServer obtenerCohabitante(int idUsuario);
+  Cohabitante obtenerCohabitante(int idUsuario);
 
   void cambiarEstadoCohabitante(int idUsuario, EstadoCohabitante estadoCohabitante);
 

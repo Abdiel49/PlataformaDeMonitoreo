@@ -1,9 +1,11 @@
 package pmonitoreo.backend.cohabitantes;
 
 import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 
 /**
  * CondicionSanitaria.csv -> una por cohabitante
@@ -12,13 +14,26 @@ import java.util.List;
 public class CohabitanteServer implements Cohabitantes{
 
   private final CSVController csvController;
+  private final Map<String, Cohabitante> mapCohabitantes;
+  private final List<Cohabitante> listCohabitantes;
 
   public CohabitanteServer (){
-    csvController = new CSVController();
+    this.csvController = new CSVController();
+    this.listCohabitantes = new LinkedList<>();
+    mapCohabitantes = new HashMap<>();
   }
 
   @Override
   public boolean validarUsuario(int idUsuario) {
+    int ID = 1;
+    String userName = "ibai";
+    String name = "Ibai Llanos";
+    String color = "green";
+    String motivo = "Sin sintomas";
+    EstadoCohabitante estado = new EstadoCohabitante(color, motivo);
+    Cohabitante cohabitante = new Cohabitante(ID, userName, name, estado);
+    mapCohabitantes.put(ID+"", cohabitante);
+    listCohabitantes.add(cohabitante);
     return true;
   }
 
@@ -26,8 +41,6 @@ public class CohabitanteServer implements Cohabitantes{
   public List<CondicionSanitaria> obtenerListaDeCondicionesSanitarias(int idUsuario) {
     List<String[]> condicionSanitaria = csvController.readCondicionSanitaria(idUsuario);
     List< CondicionSanitaria > condicionSanitariaUsuario= null;
-//    String dateFormat = "dd-MM-yyyy HH:mm";
-//    DateTimeFormatter formatter =  DateTimeFormatter.ofPattern(dateFormat);
     if(condicionSanitaria != null){
       condicionSanitariaUsuario = new LinkedList<>();
       for (String[] info : condicionSanitaria){
@@ -47,13 +60,18 @@ public class CohabitanteServer implements Cohabitantes{
   }
 
   @Override
-  public List<CohabitanteServer> obtenerListaDeCohabitantes() {
-    return null;
+  public List<Cohabitante> obtenerListaDeCohabitantes() {
+    return this.listCohabitantes;
   }
 
   @Override
-  public CohabitanteServer obtenerCohabitante(int idUsuario) {
-    return null;
+  public Cohabitante obtenerCohabitante(int idUsuario) {
+    String id = idUsuario+"";
+    if ( mapCohabitantes.containsKey(id) ) {
+      return mapCohabitantes.get(id);
+    } else {
+      return null;
+    }
   }
 
   @Override

@@ -1,10 +1,8 @@
-4,13-12-2020 08:18,temperatura,37.3
-3,13-12-2020 08:22,temperatura,36.3
-4,14-12-2020 08:12,temperatura,37.3
-1,14-12-2020 08:15,temperatura,37.5
-3,14-12-2020 08:27,temperatura,36.3
-2,14-12-2020 08:30,temperatura,35.0
-3,15-12-2020 08:02,temperatura,36.3
-1,15-12-2020 08:22,temperatura,37.5
-2,15-12-2020 08:27,temperatura,35.0
-4,15-12-2020 08:33,temperatura,37.3
+4,2020-12-13T08:18,temperatura,37.3
+3,2020-12-13T08:22,temperatura,36.3
+4,2020-12-14T08:12,temperatura,37.3
+3,2020-12-14T08:27,temperatura,36.3
+2,2020-12-14T08:30,temperatura,35.0
+3,2020-12-15T08:02,temperatura,36.3
+2,2020-12-15T08:27,temperatura,35.0
+4,2020-12-15T08:33,temperatura,37.3
