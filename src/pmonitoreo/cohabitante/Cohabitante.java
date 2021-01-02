@@ -69,13 +69,11 @@ public class Cohabitante implements CohabitanteUI {
     this.CohabitanteFrame.setVisible(true);
   }
 
-  @Override
-  public void reportarEstado( StatusType status ) {
-
-  }
 
   @Override
-  public void solicitarPrueba() {
-
+  public void onChangeStatus(){
+    cohabitanteServer.obtenerCohabitante(this.ID);
   }
+
+
 }

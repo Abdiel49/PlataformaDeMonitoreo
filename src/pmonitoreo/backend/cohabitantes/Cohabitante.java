@@ -27,4 +27,6 @@ public class Cohabitante {
   public EstadoCohabitante getEstadoCohabitante() {
     return estadoCohabitante;
   }
+
+
 }

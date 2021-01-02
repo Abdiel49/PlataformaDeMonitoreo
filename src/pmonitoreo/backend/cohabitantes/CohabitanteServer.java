@@ -16,9 +16,10 @@ public class CohabitanteServer implements Cohabitantes{
   private final CSVController csvController;
   private final Map<String, Cohabitante> mapCohabitantes;
   private final List<Cohabitante> listCohabitantes;
-
+  private final String absolutePath;
   public CohabitanteServer (){
-    this.csvController = new CSVController();
+    this.absolutePath = "src/pmonitoreo/backend/cohabitantes/";
+    this.csvController = new CSVController( absolutePath );
     this.listCohabitantes = new LinkedList<>();
     mapCohabitantes = new HashMap<>();
   }
@@ -39,7 +40,8 @@ public class CohabitanteServer implements Cohabitantes{
 
   @Override
   public List<CondicionSanitaria> obtenerListaDeCondicionesSanitarias(int idUsuario) {
-    List<String[]> condicionSanitaria = csvController.readCondicionSanitaria(idUsuario);
+    String relativePath = "cohabitantes.csv";
+    List<String[]> condicionSanitaria = csvController.readCSVFileFromRelativePath(idUsuario, relativePath);
     List< CondicionSanitaria > condicionSanitariaUsuario= null;
     if(condicionSanitaria != null){
       condicionSanitariaUsuario = new LinkedList<>();
@@ -56,7 +58,14 @@ public class CohabitanteServer implements Cohabitantes{
 
   @Override
   public void registrarCondicionSanitaria(int idUsuario, CondicionSanitaria condicionSanitaria) {
-    csvController.saveCondicionSanitaria(idUsuario,condicionSanitaria);
+    String relativePath = "cohabitantes.csv";
+    String[] lineCondicionSanitaria ={
+        idUsuario+"",
+        condicionSanitaria.getFecha().toString(),
+        condicionSanitaria.getNombreCondicion(),
+        condicionSanitaria.getValorCondicion()
+    };
+    csvController.writeInCSVFileOnRelativePath(lineCondicionSanitaria, relativePath);
   }
 
   @Override
@@ -66,18 +75,17 @@ public class CohabitanteServer implements Cohabitantes{
 
   @Override
   public Cohabitante obtenerCohabitante(int idUsuario) {
-    String id = idUsuario+"";
-    if ( mapCohabitantes.containsKey(id) ) {
-      return mapCohabitantes.get(id);
-    } else {
-      return null;
-    }
+    return mapCohabitantes.get(idUsuario+"");
   }
 
   @Override
   public void cambiarEstadoCohabitante(int idUsuario, EstadoCohabitante estadoCohabitante) {
+    if(mapCohabitantes.containsKey(idUsuario+"")){
+      Cohabitante cohabitante = mapCohabitantes.get(idUsuario+"");
 
+    }
   }
+
 
 
 }

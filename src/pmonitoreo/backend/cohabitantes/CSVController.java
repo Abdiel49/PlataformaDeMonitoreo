@@ -1,5 +1,8 @@
 package pmonitoreo.backend.cohabitantes;
 
+import pmonitoreo.backend.Files.FileManager;
+import pmonitoreo.backend.Files.ReaderAndWriterFiles;
+
 import java.io.*;
 
 import java.nio.file.Files;
@@ -12,15 +15,18 @@ import java.util.List;
 public class CSVController {
 
   private final String absolutePath;
+  private FileManager csvController;
 //  private String fileId;
 
-  public CSVController() {
-    absolutePath = "src/pmonitoreo/backend/cohabitantes/";
+  public CSVController(String absolutePath) {
+//    absolutePath = "src/pmonitoreo/backend/cohabitantes/";
+    this.absolutePath = absolutePath;
+    csvController = ReaderAndWriterFiles.getInstance(absolutePath);
   }
 
-  public List<String[]> readCondicionSanitaria(int id) {
+  public List<String[]> readCSVFileFromRelativePath(int id, String relativePath) {
     List <String[]> dataCSV = null;
-    String path = absolutePath + "cohabitantes.csv";
+    String path = absolutePath + relativePath;
     try {
       BufferedReader csvReader = Files.newBufferedReader( Paths.get( path ));
       dataCSV = new LinkedList<>();
@@ -37,19 +43,12 @@ public class CSVController {
     }
     return dataCSV;
   }
-  public void saveCondicionSanitaria(int id, CondicionSanitaria condicionSanitaria) {
-//    if()
-    String path = absolutePath + "cohabitantes.csv";
-
+  public void writeInCSVFileOnRelativePath(String[] lineInformation, String relativePath) {
+    String path = absolutePath + relativePath;
     try {
       BufferedWriter writer = Files.newBufferedWriter(Paths.get(path), StandardOpenOption.APPEND);
-      String rowInfo =
-          id+","+
-          condicionSanitaria.getFecha().toString()+","+
-          condicionSanitaria.getNombreCondicion()+","+
-          condicionSanitaria.getValorCondicion();
-
-      writer.write("\n"+rowInfo);
+      String lineData = String.join(",", lineInformation);
+      writer.write("\n"+lineData);
       writer.close();
     }catch (IOException e){
       e.printStackTrace();
