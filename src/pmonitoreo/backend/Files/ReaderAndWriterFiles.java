@@ -17,11 +17,12 @@ public class ReaderAndWriterFiles implements FileManager {
   private ReaderAndWriterFiles(String absolutePath ) {
     this.absolutePath = absolutePath;
   }
+
   private ReaderAndWriterFiles(){
     this.absolutePath = "";
   }
 
-  private static void createInstance(String absolutePath){
+  /*private static void createInstance(String absolutePath){
     if ( readerAndWriterFiles == null){
       if (absolutePath.length() > 0)
         readerAndWriterFiles = new ReaderAndWriterFiles(absolutePath);
@@ -34,7 +35,7 @@ public class ReaderAndWriterFiles implements FileManager {
       createInstance(absolutePath);
     }
     return  readerAndWriterFiles;
-  }
+  }*/
 
   @Override
   public List<String> readFileFromPath(String realativePath) {

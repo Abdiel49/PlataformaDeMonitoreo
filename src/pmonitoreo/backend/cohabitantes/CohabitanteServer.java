@@ -14,9 +14,11 @@ import java.util.Map;
 public class CohabitanteServer implements Cohabitantes{
 
   private final CSVController csvController;
+
   private final Map<String, Cohabitante> mapCohabitantes;
   private final List<Cohabitante> listCohabitantes;
   private final String absolutePath;
+
   public CohabitanteServer (){
     this.absolutePath = "src/pmonitoreo/backend/cohabitantes/";
     this.csvController = new CSVController( absolutePath );
@@ -26,15 +28,36 @@ public class CohabitanteServer implements Cohabitantes{
 
   @Override
   public boolean validarUsuario(int idUsuario) {
-    int ID = 1;
-    String userName = "ibai";
-    String name = "Ibai Llanos";
-    String color = "green";
-    String motivo = "Sin sintomas";
-    EstadoCohabitante estado = new EstadoCohabitante(color, motivo);
-    Cohabitante cohabitante = new Cohabitante(ID, userName, name, estado);
-    mapCohabitantes.put(ID+"", cohabitante);
-    listCohabitantes.add(cohabitante);
+    String RELATIVE_PATH = "data/AuthCohabitantes.csv";
+    List<String[]> cohabitanteFindById = csvController.readCSVFileFromRelativePath(idUsuario, RELATIVE_PATH);
+    if( !cohabitanteFindById.isEmpty() ){
+      int idAuthFile = Integer.parseInt(cohabitanteFindById.get(0)[0]);
+      boolean isID = idAuthFile == idUsuario;
+      if(isID){
+
+        String[] data = cohabitanteFindById.get(0);
+        int ID = Integer.parseInt(data[0]);
+        String userName = data[1];
+        String name = data[2];
+        // get 'Estado Cohabitantes' data
+        RELATIVE_PATH = "data/EstadoCohabitantes.csv";
+        cohabitanteFindById = csvController.readCSVFileFromRelativePath(ID, RELATIVE_PATH);
+        data = cohabitanteFindById.get(0);
+        String color = data[3];
+        String motivo = data[4];
+
+        EstadoCohabitante estado = new EstadoCohabitante(color, motivo);
+        Cohabitante cohabitante = new Cohabitante(ID, userName, name, estado);
+        mapCohabitantes.put(ID+"", cohabitante);
+        listCohabitantes.add(cohabitante);
+
+        System.out.println("Se encontro el ususario con ID: "+idUsuario+"\t estado de busqueda: "+isID);
+        System.out.println("Data:\tID: "+ID+"\tUser Name: "+userName+"\tName: "+name+"\tColor: "+color+"\tMotivo: "+motivo);
+      }
+    }else{
+      System.out.println("NO se encontro el ususario con ID: "+idUsuario);
+    }
+
     return true;
   }
 

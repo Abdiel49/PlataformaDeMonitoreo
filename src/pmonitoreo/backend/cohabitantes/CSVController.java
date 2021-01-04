@@ -21,7 +21,7 @@ public class CSVController {
   public CSVController(String absolutePath) {
 //    absolutePath = "src/pmonitoreo/backend/cohabitantes/";
     this.absolutePath = absolutePath;
-    csvController = ReaderAndWriterFiles.getInstance(absolutePath);
+//    csvController = ReaderAndWriterFiles.getInstance(absolutePath);
   }
 
   public List<String[]> readCSVFileFromRelativePath(int id, String relativePath) {

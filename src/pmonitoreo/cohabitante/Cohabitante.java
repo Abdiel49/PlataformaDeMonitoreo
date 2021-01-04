@@ -43,6 +43,7 @@ public class Cohabitante implements CohabitanteUI {
         {"14-04-2020 08:35", "36.3"},
         {"15-04-2020 08:12", "38.6"}
     };
+    cohabitanteServer.validarUsuario(2);
   }
 
   public void initCohabitante() {
