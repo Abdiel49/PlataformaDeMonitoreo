@@ -1,7 +1,6 @@
 package pmonitoreo.backend.cohabitantes;
 
-import pmonitoreo.backend.Files.FileManager;
-import pmonitoreo.backend.Files.ReaderAndWriterFiles;
+//import pmonitoreo.backend.Files.FileManager;
 
 import java.io.*;
 
@@ -9,14 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+//import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CSVController {
 
   private final String absolutePath;
-  private FileManager csvController;
-//  private String fileId;
 
   public CSVController(String absolutePath) {
 //    absolutePath = "src/pmonitoreo/backend/cohabitantes/";
@@ -45,10 +43,12 @@ public class CSVController {
   }
   public void writeInCSVFileOnRelativePath(String[] lineInformation, String relativePath) {
     String path = absolutePath + relativePath;
+//    Date date = new Date();
     try {
-      BufferedWriter writer = Files.newBufferedWriter(Paths.get(path), StandardOpenOption.APPEND);
+      BufferedWriter writer = Files.newBufferedWriter(Paths.get(path),StandardOpenOption.CREATE, StandardOpenOption.APPEND);
       String lineData = String.join(",", lineInformation);
-      writer.write("\n"+lineData);
+      writer.write(lineData);
+      writer.newLine(); // require
       writer.close();
     }catch (IOException e){
       e.printStackTrace();

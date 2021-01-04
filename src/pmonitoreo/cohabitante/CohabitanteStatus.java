@@ -81,6 +81,7 @@ public class CohabitanteStatus extends JPanel {
     cohabitanteServer.registrarCondicionSanitaria(ID, new CondicionSanitaria(time, "Temperatura", temp));
 
     String dateFormat = "dd-MM-yyyy HH:mm";
+
     DateTimeFormatter formatter =  DateTimeFormatter.ofPattern(dateFormat);
 
     addData( new String[]{
@@ -95,7 +96,6 @@ public class CohabitanteStatus extends JPanel {
   }
 
   private LocalDateTime getLocalDateTimeNow(){
-
     return LocalDateTime.now().withSecond(0).withNano(0);
   }
 
