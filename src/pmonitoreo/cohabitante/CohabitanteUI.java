@@ -6,7 +6,7 @@ import pmonitoreo.backend.cohabitantes.Cohabitantes;
 import javax.swing.*;
 import java.awt.*;
 
-public class Cohabitante implements CohabitanteUI {
+public class CohabitanteUI implements MovilCohabitante {
 
   Cohabitantes cohabitanteServer;
   private int ID;
@@ -21,7 +21,7 @@ public class Cohabitante implements CohabitanteUI {
   private JComponent StatusPanel;
   private JComponent TestRequestPanel;
 
-  public Cohabitante(Cohabitantes cohabitanteServer){
+  public CohabitanteUI(Cohabitantes cohabitanteServer){
     this.cohabitanteServer = cohabitanteServer;
     loadCohabitanteData();
     initCohabitante();
@@ -47,7 +47,7 @@ public class Cohabitante implements CohabitanteUI {
   }
 
   public void initCohabitante() {
-    this.CohabitanteFrame = new JFrame("Interfaz de Cohabitante");
+    this.CohabitanteFrame = new JFrame("Interfaz de CohabitanteUI");
     this.CohabitanteFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.CohabitanteFrame.setSize(375, 667);
     this.CohabitanteFrame.setTitle("Interfaz de CohabitanteServer");
