@@ -14,6 +14,7 @@ import java.util.List;
 public class CohabitanteStatus extends JPanel {
 
   private final int ID;
+  private final String DATE_FORMAT;
   private List<String> Columns;
   private final List<String> Data;
   Cohabitantes cohabitanteServer;
@@ -27,19 +28,13 @@ public class CohabitanteStatus extends JPanel {
       List<String> data) {
 
     this.ID = id;
+    this.DATE_FORMAT = "dd-MM-yyyy HH:mm";
     this.cohabitanteServer = server;
     this.Columns = column;
     this.Data = data;
     tableModel = new DefaultTableModel();
 //    initColumns();
     initAllComponents();
-  }
-
-  private void initColumns(){
-    Columns = new LinkedList<>();
-    Columns.add("Fecha");
-    Columns.add("Temperatura");
-
   }
 
   private void initAllComponents(){
@@ -69,11 +64,30 @@ public class CohabitanteStatus extends JPanel {
   }
 
   private void loadData(){
+    int LAST_FEW_DAYS = 6;
     for( String rowData : Data){
       String[] rowSplit = rowData.split(",");
+      for (int i = 0; i < LAST_FEW_DAYS; i++) {
+        
+      }
       tableModel.insertRow(tableModel.getRowCount(), rowSplit);
     }
   }
+
+  private boolean validateLatestHealthConditionRecords(String date){
+    boolean resp = false;
+    long LAST_FEW_DAYS = 6;
+    LocalDateTime dateNow = getLocalDateTimeNow();
+    LocalDateTime lastFewDays = dateNow.minusDays(LAST_FEW_DAYS);
+    LocalDateTime dateToBeEvaluated = stringToLocalDateTime(date);
+
+    if(  ){
+
+    }
+
+    return resp;
+  }
+
   private void addData(String[] newData){
     this.tableModel.insertRow(0, newData);
   }
@@ -89,17 +103,18 @@ public class CohabitanteStatus extends JPanel {
   private void addReport(){
     LocalDateTime time = getLocalDateTimeNow();
     String temp = getTemperature();
-
+    String dateTimeFormat = getDateTimeFormater(time);
     cohabitanteServer.registrarCondicionSanitaria(ID, new CondicionSanitaria(time, "Temperatura", temp));
 
-    String dateFormat = "dd-MM-yyyy HH:mm";
-
-    DateTimeFormatter formatter =  DateTimeFormatter.ofPattern(dateFormat);
-
     addData( new String[]{
-        formatter.format(time),
-      temp
+        dateTimeFormat,
+        temp
     });
+  }
+
+  private String getDateTimeFormater(LocalDateTime dateTime){
+    DateTimeFormatter formatter =  DateTimeFormatter.ofPattern(DATE_FORMAT);
+    return formatter.format(dateTime);
   }
 
   private String getTemperature(){
@@ -109,6 +124,10 @@ public class CohabitanteStatus extends JPanel {
 
   private LocalDateTime getLocalDateTimeNow(){
     return LocalDateTime.now().withSecond(0).withNano(0);
+  }
+
+  private LocalDateTime stringToLocalDateTime(String dateTime){
+    return LocalDateTime.parse(dateTime);
   }
 
 }
