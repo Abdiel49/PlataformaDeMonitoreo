@@ -8,12 +8,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CohabitanteStatus extends JPanel {
 
   private final int ID;
-  private final String[] Columns;
-  private final String[][] Data;
+  private List<String> Columns;
+  private final List<String> Data;
   Cohabitantes cohabitanteServer;
 //  private JTable statusContend;
   private final DefaultTableModel tableModel;
@@ -21,14 +23,23 @@ public class CohabitanteStatus extends JPanel {
   public CohabitanteStatus (
       int id,
       Cohabitantes server,
-      String[] column,
-      String[][] data) {
+      List<String> column,
+      List<String> data) {
+
     this.ID = id;
     this.cohabitanteServer = server;
     this.Columns = column;
     this.Data = data;
     tableModel = new DefaultTableModel();
+//    initColumns();
     initAllComponents();
+  }
+
+  private void initColumns(){
+    Columns = new LinkedList<>();
+    Columns.add("Fecha");
+    Columns.add("Temperatura");
+
   }
 
   private void initAllComponents(){
@@ -58,8 +69,9 @@ public class CohabitanteStatus extends JPanel {
   }
 
   private void loadData(){
-    for( String[] row : Data){
-      tableModel.insertRow(tableModel.getRowCount(), row);
+    for( String rowData : Data){
+      String[] rowSplit = rowData.split(",");
+      tableModel.insertRow(tableModel.getRowCount(), rowSplit);
     }
   }
   private void addData(String[] newData){
