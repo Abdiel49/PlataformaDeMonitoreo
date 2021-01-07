@@ -8,17 +8,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 import java.util.List;
 
 public class CohabitanteStatus extends JPanel {
 
   private final int ID;
   private final String DATE_FORMAT;
-  private List<String> Columns;
+  private final List<String> Columns;
   private final List<String> Data;
-  Cohabitantes cohabitanteServer;
-//  private JTable statusContend;
+  private final Cohabitantes cohabitanteServer;
   private final DefaultTableModel tableModel;
 
   public CohabitanteStatus (
@@ -57,6 +55,7 @@ public class CohabitanteStatus extends JPanel {
     this.add(title, BorderLayout.NORTH);
     this.add(scrollPane, BorderLayout.CENTER);
   }
+
   private void loadColumns(){
     for(String nameColumn : Columns) {
       tableModel.addColumn(nameColumn);
@@ -64,27 +63,23 @@ public class CohabitanteStatus extends JPanel {
   }
 
   private void loadData(){
-    int LAST_FEW_DAYS = 6;
+    long LAST_FEW_DAYS = 6;
     for( String rowData : Data){
       String[] rowSplit = rowData.split(",");
-      for (int i = 0; i < LAST_FEW_DAYS; i++) {
-        
+      if( validateLatestHealthConditionRecords(rowSplit[0], LAST_FEW_DAYS) ){
+        tableModel.insertRow(tableModel.getRowCount(), rowSplit);
       }
-      tableModel.insertRow(tableModel.getRowCount(), rowSplit);
     }
   }
 
-  private boolean validateLatestHealthConditionRecords(String date){
+  private boolean validateLatestHealthConditionRecords(String date, long LAST_FEW_DAYS){
     boolean resp = false;
-    long LAST_FEW_DAYS = 6;
     LocalDateTime dateNow = getLocalDateTimeNow();
     LocalDateTime lastFewDays = dateNow.minusDays(LAST_FEW_DAYS);
     LocalDateTime dateToBeEvaluated = stringToLocalDateTime(date);
-
-    if(  ){
-
+    if( dateToBeEvaluated.isAfter(lastFewDays) ){
+      resp = true;
     }
-
     return resp;
   }
 

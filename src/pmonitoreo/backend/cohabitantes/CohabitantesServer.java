@@ -11,7 +11,7 @@ import java.util.Map;
  * CondicionSanitaria.csv -> una por cohabitante
  * Cohabitantes.csv ->  maneja el EstadoCohabitante
  */
-public class CohabitanteServer implements Cohabitantes{
+public class CohabitantesServer implements Cohabitantes{
 
   private final CSVController csvController;
 
@@ -19,7 +19,7 @@ public class CohabitanteServer implements Cohabitantes{
   private final List<Cohabitante> listCohabitantes;
   private final String absolutePath;
 
-  public CohabitanteServer (){
+  public CohabitantesServer(){
     this.absolutePath = "src/pmonitoreo/backend/cohabitantes/";
     this.csvController = new CSVController( absolutePath );
     this.listCohabitantes = new LinkedList<>();

@@ -2,6 +2,7 @@ package pmonitoreo.cohabitante;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import pmonitoreo.backend.alertas.Alertas;
 import pmonitoreo.backend.cohabitantes.Cohabitantes;
 
 import java.util.*;
@@ -27,7 +28,7 @@ public class CohabitanteUI implements MovilCohabitante {
   private final Map<String, String> columsMap;
   private final List<String> columnsList;
 
-  public CohabitanteUI(Cohabitantes cohabitanteServer){
+  public CohabitanteUI(Cohabitantes cohabitanteServer, Alertas alerta){
     this.cohabitanteServer = cohabitanteServer;
     this.dataList = new LinkedList<>();
     this.columsMap = new HashMap<>();
@@ -87,7 +88,7 @@ public class CohabitanteUI implements MovilCohabitante {
     this.CohabitanteFrame = new JFrame("Interfaz de CohabitanteUI");
     this.CohabitanteFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.CohabitanteFrame.setSize(375, 667);
-//    this.CohabitanteFrame.setTitle("Interfaz de CohabitanteServer");
+//    this.CohabitanteFrame.setTitle("Interfaz de CohabitantesServer");
     this.CohabitanteFrame.setVisible(false);
     this.CohabitanteFrame.setLocationRelativeTo(null);
 
